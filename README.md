@@ -54,14 +54,14 @@ You can set it permanently by modifying `vm.max_map_count` setting in your `/etc
 
 ## Environment Configuration
 
--   Passwords: All passwords are unset at default, so, if a password is not explicitly defined, the corresponding user is not available/usable! 
-   -   **ELASTIC_PASSWORD**: The password of the pre defined admin user '**elastic**'.
-   -   **KIBANA_PASSWORD**: The password of the pre defined '**kibana**' user. This user is used and configured only in `kibana.yml` and has `kibana_system` role.
-   -   **KIBANA_USER_PASSWORD**: The password of the '**kibana_user**' user. This user is used to login to Kibana UI and has `kibana_user` role
-   -   **BEATS_PASSWORD**: The password of the pre defined '**beats**'/'**beats_system**' user.
-   -   **LOGSTASH_PASSWORD**: The password of the pre defined '**logstash_system**' user.
-   -   **APM_PASSWORD**: The password of the pre defined '**apm_system**' user.
-   -   **REMOTE_MONITORING_PASSWORD**: The password of the pre defined '**remote_monitoring_user**' user.
+- Passwords: All passwords are unset at default, so, if a password is not explicitly defined, the corresponding user is not available/usable! 
+  - **ELASTIC_PASSWORD**: The password of the pre defined admin user '**elastic**'.
+  - **KIBANA_PASSWORD**: The password of the pre defined '**kibana**' user. This user is used and configured only in `kibana.yml` and has `kibana_system` role.
+  - **KIBANA_USER_PASSWORD**: The password of the '**kibana_user**' user. This user is used to login to Kibana UI and has `kibana_user` role
+  - **BEATS_PASSWORD**: The password of the pre defined '**beats**'/'**beats_system**' user.
+  - **LOGSTASH_PASSWORD**: The password of the pre defined '**logstash_system**' user.
+  - **APM_PASSWORD**: The password of the pre defined '**apm_system**' user.
+  - **REMOTE_MONITORING_PASSWORD**: The password of the pre defined '**remote_monitoring_user**' user.
 
 ### X-Pack security configuration
 
