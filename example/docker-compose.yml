@@ -2,7 +2,7 @@
 version: '2.2'
 services:
   es_1:
-    image: xtermi2/sec-elasticsearch-prometheus
+    image: xtermi2/sec-elasticsearch-prometheus:7.3.0
     container_name: es_1
     environment:
       - node.name=es_1
@@ -49,7 +49,7 @@ services:
     networks:
       - esnet
   es_2:
-    image: xtermi2/sec-elasticsearch-prometheus
+    image: xtermi2/sec-elasticsearch-prometheus:7.3.0
     container_name: es_2
     environment:
       - node.name=es_2
