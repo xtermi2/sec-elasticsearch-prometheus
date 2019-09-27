@@ -1,0 +1,19 @@
+version: '2.2'
+
+services:
+  create_certs:
+    container_name: create_certs
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.3.0
+    command: >
+      bash -c '
+        yum install -y -q -e 0 unzip;
+        if [[ ! -f /certs/bundle.zip ]]; then
+          echo "if you want to have an encrypted private key, add the \"--pass MySecretKeyPassword\" parameter"
+          bin/elasticsearch-certutil cert --silent --days 10000 --pem --in config/certificates/instances.yml -out /certs/bundle.zip;
+          unzip /certs/bundle.zip -d /certs;
+        fi;
+        chmod 777 -R /certs
+      '
+    user: "0"
+    working_dir: /usr/share/elasticsearch
+    volumes: ['./certs:/certs', '.:/usr/share/elasticsearch/config/certificates']

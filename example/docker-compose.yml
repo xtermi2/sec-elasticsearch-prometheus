@@ -1,0 +1,142 @@
+# docker compose to startup a local ES cluster
+version: '2.2'
+services:
+  es_1:
+    image: xtermi2/sec-elasticsearch-prometheus
+    container_name: es_1
+    environment:
+      - node.name=es_1
+      - cluster.name=my-cluster
+      - discovery.seed_hosts=es_2
+      - cluster.initial_master_nodes=es_1,es_2
+      - number_of_replicas=1
+      - auto_expand_replicas=0-all
+      - network.host=0.0.0.0
+      - network.bind_host=0.0.0.0
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms500m -Xmx500m"
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=true
+      - xpack.security.http.ssl.key=/usr/share/elasticsearch/config/certificates/node.key
+      - xpack.security.http.ssl.certificate=/usr/share/elasticsearch/config/certificates/node.crt
+      - xpack.security.http.ssl.certificate_authorities=/usr/share/elasticsearch/config/certificates/ca.crt
+      # use this, if your private key is encrypted
+      #- xpack.security.http.ssl.key_passphrase=MySecretKeyPassword
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - xpack.security.transport.ssl.key=/usr/share/elasticsearch/config/certificates/node.key
+      - xpack.security.transport.ssl.certificate=/usr/share/elasticsearch/config/certificates/node.crt
+      - xpack.security.transport.ssl.certificate_authorities=/usr/share/elasticsearch/config/certificates/ca.crt
+      # use this, if your private key is encrypted
+      #- xpack.security.transport.ssl.key_passphrase=MySecretKeyPassword
+      - ELASTIC_PASSWORD=elastic
+      - KIBANA_PASSWORD=kibana
+      - KIBANA_USER_PASSWORD=kibana
+      - BEATS_PASSWORD=beats
+      - REMOTE_MONITORING_PASSWORD=monitor
+    volumes:
+      - ./certs-gen/certs/ca/ca.crt:/usr/share/elasticsearch/config/certificates/ca.crt
+      - ./certs-gen/certs/node/node.crt:/usr/share/elasticsearch/config/certificates/node.crt
+      - ./certs-gen/certs/node/node.key:/usr/share/elasticsearch/config/certificates/node.key
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
+    #    - "9300:9300"
+    restart: always
+    networks:
+      - esnet
+  es_2:
+    image: xtermi2/sec-elasticsearch-prometheus
+    container_name: es_2
+    environment:
+      - node.name=es_2
+      - cluster.name=my-cluster
+      - discovery.seed_hosts=es_1
+      - cluster.initial_master_nodes=es_1,es_2
+      - number_of_replicas=1
+      - auto_expand_replicas=0-all
+      - network.host=0.0.0.0
+      - network.bind_host=0.0.0.0
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms500m -Xmx500m"
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=true
+      - xpack.security.http.ssl.key=/usr/share/elasticsearch/config/certificates/node.key
+      - xpack.security.http.ssl.certificate=/usr/share/elasticsearch/config/certificates/node.crt
+      - xpack.security.http.ssl.certificate_authorities=/usr/share/elasticsearch/config/certificates/ca.crt
+      # use this, if your private key is encrypted
+      #- xpack.security.http.ssl.key_passphrase=MySecretKeyPassword
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - xpack.security.transport.ssl.key=/usr/share/elasticsearch/config/certificates/node.key
+      - xpack.security.transport.ssl.certificate=/usr/share/elasticsearch/config/certificates/node.crt
+      - xpack.security.transport.ssl.certificate_authorities=/usr/share/elasticsearch/config/certificates/ca.crt
+      # use this, if your private key is encrypted
+      #- xpack.security.transport.ssl.key_passphrase=MySecretKeyPassword
+      - ELASTIC_PASSWORD=elastic
+      - KIBANA_PASSWORD=kibana
+      - KIBANA_USER_PASSWORD=kibana
+      - BEATS_PASSWORD=secret
+      - REMOTE_MONITORING_PASSWORD=monitor
+    volumes:
+      - ./certs-gen/certs/ca/ca.crt:/usr/share/elasticsearch/config/certificates/ca.crt
+      - ./certs-gen/certs/node/node.crt:/usr/share/elasticsearch/config/certificates/node.crt
+      - ./certs-gen/certs/node/node.key:/usr/share/elasticsearch/config/certificates/node.key
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9201:9200"
+    #    - "9300:9300"
+    restart: always
+    networks:
+      - esnet
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.3.0
+    container_name: kibana
+    environment:
+      ELASTICSEARCH_HOSTS: "https://es_1:9200"
+      ELASTICSEARCH_SSL_VERIFICATIONMODE: "none"
+      ELASTICSEARCH_USERNAME: "kibana"
+      ELASTICSEARCH_PASSWORD: "kibana"
+    ports:
+      - "5601:5601"
+    restart: always
+    depends_on:
+      - "es_1"
+      - "es_2"
+    networks:
+      - esnet
+  prometheus:
+    image: prom/prometheus:v2.12.0
+    container_name: prometheus
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    restart: always
+    depends_on:
+      - "es_1"
+      - "es_2"
+    networks:
+      - esnet
+  grafana:
+    image: grafana/grafana:6.3.6
+    container_name: grafana
+    volumes:
+      - ./monitoring/grafana_provisioning_prometheus_datasource.yaml:/etc/grafana/provisioning/datasources/grafana_provisioning_prometheus_datasource.yaml
+      - ./monitoring/grafana_provisioning_elasticsearch_dashboard.yaml:/etc/grafana/provisioning/dashboards/grafana_provisioning_elasticsearch_dashboard.yaml
+      - ./monitoring/grafana_elasticsearchDashboard_266.json:/var/lib/grafana/dashboards/grafana_elasticsearchDashboard_266.json
+    ports:
+      - "3000:3000"
+    restart: always
+    depends_on:
+      - "prometheus"
+    networks:
+      - esnet
+networks:
+  esnet:
