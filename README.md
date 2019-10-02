@@ -15,9 +15,11 @@ For a complete example with 2 elasticsearch nodes, [kibana](https://www.elastic.
 
 ## Image detail description
 
-This docker image extends the original elastic image, sets up default user passwords and installs [elasticsearch-prometheus-exporter](https://github.com/vvanholl/elasticsearch-prometheus-exporter) plugin. 
+This docker image extends the original elastic image, sets up default user passwords and installs 
+[elasticsearch-prometheus-exporter](https://github.com/vvanholl/elasticsearch-prometheus-exporter) plugin. 
 
-At startup elasticsearch is configured with a set of [default users](https://www.elastic.co/guide/en/elastic-stack-overview/current/built-in-users.html):
+At startup elasticsearch is configured with a set of 
+[default users](https://www.elastic.co/guide/en/elastic-stack-overview/current/built-in-users.html):
 
 -   elastic: A admin user which has no restrictions
 -   kibana: The user Kibana uses to connect and communicate with Elasticsearch.
@@ -28,9 +30,12 @@ At startup elasticsearch is configured with a set of [default users](https://www
 
 This image also adds:
  
--   a user named `beats`, which has the same roles as the default beats_system user and will have the same password. So it's like an alias.
+-   a user named `beats`, which has the same roles as the default beats_system user (plus `beats_admin` and 
+    [filebeats_admin](https://github.com/xtermi2/sec-elasticsearch-prometheus/tree/master/src/main/resources/config/roles.yml)) 
+    and will have the same password. It's designed do manage and publish filebeats data to elasticsearch.
 -   a user named `kibana_user`, which has roles `kibana_user`, `reporting_user` and `kibana_admin` and is designed to login to Kibana UI.
-    [kibana_admin](https://github.com/xtermi2/sec-elasticsearch-prometheus/tree/master/src/main/resources/config/roles.yml) is a custom role, which grants admin rights for kibana and read access to all indices.
+    [kibana_admin](https://github.com/xtermi2/sec-elasticsearch-prometheus/tree/master/src/main/resources/config/roles.yml) 
+    is a custom role, which grants admin rights for kibana and read access to all indices.
 
 You are able to easily set passwords for these users via Docker environment variables.
 
@@ -43,8 +48,8 @@ These Certificates have to be mounted in the container at `/usr/share/elasticsea
 
 ## [File Descriptors and MMap](https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html)
 
-Elasticsearch uses a mmapfs directory by default to store its indices. The default operating system limits on mmap counts is likely to be too low, which may result in out of memory exceptions.
-The host has to run this command:
+Elasticsearch uses a mmapfs directory by default to store its indices. The default operating system limits on mmap counts 
+is likely to be too low, which may result in out of memory exceptions. The host has to run this command:
 
 ```bash
 sudo sysctl -w vm.max_map_count=262144

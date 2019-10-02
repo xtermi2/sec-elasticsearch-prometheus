@@ -14,6 +14,14 @@ kibana_admin:
     - names:
         - "?kibana*"
       privileges:
-        - monitor
-        - read
-        - index
+        - all
+
+filebeats_admin:
+  cluster:
+    - monitor
+    - manage_index_templates
+  indices:
+    - names:
+        - "filebeat-*"
+      privileges:
+        - all

@@ -26,7 +26,7 @@ ENV REMOTE_MONITORING_PASSWORD ""
 COPY --chown=1000:0 ./src/main/resources/bin /usr/local/bin
 COPY --chown=1000:0 ./src/main/resources/config /usr/share/elasticsearch/config
 
-RUN echo "===> Installing elasticsearch-prometheus-exporter..." \
+RUN echo "===> Installing elasticsearch-prometheus-exporter plugin..." \
     && chmod -R +x /usr/local/bin \
     && elasticsearch-plugin install -b https://github.com/vvanholl/elasticsearch-prometheus-exporter/releases/download/${PROMETHEUS_EXPORTER_VERSION}/prometheus-exporter-${PROMETHEUS_EXPORTER_VERSION}.zip
 
