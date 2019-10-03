@@ -3,6 +3,7 @@ FROM docker.elastic.co/elasticsearch/elasticsearch:7.3.0
 
 ARG VCS_REF
 ARG BUILD_DATE
+ARG MICROSCANNER_TOKEN
 
 LABEL description="extended elasticsearch image with pre-installed elasticsearch-prometheus-exporter"
 LABEL org.label-schema.name="sec-elasticsearch-prometheus"
@@ -29,6 +30,12 @@ COPY --chown=1000:0 ./src/main/resources/config /usr/share/elasticsearch/config
 RUN echo "===> Installing elasticsearch-prometheus-exporter plugin..." \
     && chmod -R +x /usr/local/bin \
     && elasticsearch-plugin install -b https://github.com/vvanholl/elasticsearch-prometheus-exporter/releases/download/${PROMETHEUS_EXPORTER_VERSION}/prometheus-exporter-${PROMETHEUS_EXPORTER_VERSION}.zip
+
+#run Aqua MicroScanner - scan for vulnerabilities
+RUN curl -L -o /tmp/microscanner https://get.aquasec.com/microscanner \
+    && chmod +x /tmp/microscanner \
+    && /tmp/microscanner $MICROSCANNER_TOKEN --continue-on-failure \
+    && rm -rf /tmp/microscanner
 
 ENTRYPOINT ["/usr/local/bin/new-entrypoint.sh"]
 # Dummy overridable parameter parsed by entrypoint
