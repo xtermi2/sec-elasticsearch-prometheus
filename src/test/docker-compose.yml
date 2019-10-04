@@ -1,5 +1,5 @@
 # docker compose to startup a local ES cluster
-version: '3.5'
+version: '3.6'
 services:
   es_1:
     image: xtermi2/sec-elasticsearch-prometheus
