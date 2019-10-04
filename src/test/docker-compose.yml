@@ -1,5 +1,5 @@
 # docker compose to startup a local ES cluster
-version: '2.2'
+version: '3.5'
 services:
   es_1:
     image: xtermi2/sec-elasticsearch-prometheus
@@ -109,10 +109,8 @@ services:
       timeout: 5s
       retries: 5
     depends_on:
-      es_1:
-        condition: service_healthy
-      es_2:
-        condition: service_healthy
+      - es_1
+      - es_2
     networks:
       - esnet
   filebeat:
@@ -130,10 +128,8 @@ services:
       timeout: 5s
       retries: 5
     depends_on:
-      es_1:
-        condition: service_healthy
-      es_2:
-        condition: service_healthy
+      - es_1
+      - es_2
     restart: on-failure
     networks:
       - esnet
