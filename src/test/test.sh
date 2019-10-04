@@ -8,11 +8,22 @@ docker-compose up -d
 
 ./wait_until_started.sh
 
+general_status=0
 echo "executing testcases"
-set -e
+
 ./test_case_kibana.sh
+((general_status=general_status+$?))
 ./test_case_cluster_health.sh
+((general_status=general_status+$?))
 ./test_case_prometheus_endpoint.sh
+((general_status=general_status+$?))
 ./test_case_filebeats.sh
+((general_status=general_status+$?))
+
+if ((general_status > 0)); then
+  echo "${general_status} tests FAILED, see logs above!"
+fi
 
 docker-compose down
+
+exit ${general_status}

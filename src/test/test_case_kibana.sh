@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+general_status=0
+
 echo -n "TEST if kibana status endpoint is returning HTTP 200..."
 RET=1
 count=0
@@ -12,9 +14,10 @@ while ((RET != 0 && count < 60)); do
 done
 if ((RET != 0)); then
   echo "failed!"
-  exit 1
+  ((general_status++))
+else
+  echo "OK"
 fi
-echo "OK"
 
 echo "calling kibana api/status endpoint"
 api_status=$(curl -X GET --silent -k -f -u "kibana_user:kibana" "http://localhost:5601/api/status")
@@ -23,6 +26,9 @@ echo -n "TEST if kibana overall state is green..."
 overall_status=$(jq -r .status.overall.state <<<"${api_status}")
 if [ "${overall_status,,}" != "green" ]; then
   echo "failed: overall state is ${overall_status}"
-  exit 1
+  ((general_status++))
+else
+  echo "OK"
 fi
-echo "OK"
+
+exit ${general_status}
