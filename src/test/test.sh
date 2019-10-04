@@ -12,7 +12,7 @@ echo "executing testcases"
 set -e
 ./test_case_cluster_health.sh
 ./test_case_prometheus_endpoint.sh
-./test_case_filebeats.sh
 ./test_case_kibana.sh
+./test_case_filebeats.sh
 
 docker-compose down
