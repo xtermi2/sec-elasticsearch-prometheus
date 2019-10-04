@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -e
 
 echo "calling elasticsearch _prometheus/metrics endpoint"
 metrics=$(curl -X GET --silent -k -u "remote_monitoring_user:monitor" "https://localhost:9200/_prometheus/metrics")

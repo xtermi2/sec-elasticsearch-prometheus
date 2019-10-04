@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -e
 
 echo "calling elasticsearch _cluster/health endpoint"
 health=$(curl -X GET --silent -k -u "elastic:elastic" "https://localhost:9200/_cluster/health")
