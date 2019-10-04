@@ -8,7 +8,6 @@ docker-compose up -d
 
 ./wait_until_started.sh
 docker-compose ps
-docker-compose logs filebeat
 
 general_status=0
 echo "executing testcases"
@@ -19,8 +18,6 @@ echo "executing testcases"
 ((general_status = general_status + $?))
 ./test_case_prometheus_endpoint.sh
 ((general_status = general_status + $?))
-docker-compose ps
-docker-compose logs filebeat
 ./test_case_filebeats.sh
 ((general_status = general_status + $?))
 
@@ -33,8 +30,6 @@ fi
 echo "#########################################"
 
 docker-compose ps
-docker-compose logs filebeat
-docker exec -i -t filebeat /bin/cat /usr/share/filebeat/logs/filebeat
 docker-compose down
 
 exit ${general_status}
