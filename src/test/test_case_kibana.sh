@@ -19,13 +19,17 @@ else
   echo "OK"
 fi
 
-echo "calling kibana api/status endpoint"
-api_status=$(curl -X GET --silent -k -f -u "kibana_user:kibana" "http://localhost:5601/api/status")
-
 echo -n "TEST if kibana overall state is green..."
-overall_status=$(jq -r .status.overall.state <<<"${api_status}")
+overall_status="dummy"
+itterations=0
+while [[ "${overall_status,,}" != "green" && $itterations -lt 20 ]]; do
+  sleep 1
+  overall_status=$(curl -X GET --silent -k -f -u "kibana_user:kibana" "http://localhost:5601/api/status" | jq -r .status.overall.state)
+  echo -n "."
+  ((itterations++))
+done
 if [ "${overall_status,,}" != "green" ]; then
-  echo "failed: overall state is ${overall_status}"
+  echo "failed: overall state is \"${overall_status}\""
   ((general_status++))
 else
   echo "OK"
