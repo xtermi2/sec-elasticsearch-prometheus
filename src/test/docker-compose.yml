@@ -123,9 +123,9 @@ services:
     volumes:
       - ./filebeat.yml:/usr/share/filebeat/filebeat.yml
     ports:
-      - "5066:5066"
+      - "5610:5610"
 #    healthcheck:
-#      test: curl -X GET -f http://localhost:5066 || exit 1
+#      test: curl -X GET -f http://localhost:5610 || exit 1
 #      interval: 30s
 #      timeout: 5s
 #      retries: 5
@@ -134,6 +134,7 @@ services:
         condition: service_healthy
       es_2:
         condition: service_healthy
+    restart: on-failure
     networks:
       - esnet
 networks:

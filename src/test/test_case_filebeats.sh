@@ -9,7 +9,7 @@ filebeat_stats=""
 filebeats_status_events_done=0
 while ((filebeats_status_events_done < 1 && count < 20)); do
   sleep 1
-  filebeat_stats=$(curl -X GET --silent -f "http://localhost:5066/stats")
+  filebeat_stats=$(curl -X GET --silent -f "http://localhost:5610/stats")
   RET=$?
   filebeats_status_events_done=$(jq -r .filebeat.events.done <<<"${filebeat_stats}")
   echo -n "."
