@@ -7,8 +7,7 @@ services:
     environment:
       - node.name=es_1
       - cluster.name=my-cluster
-      - discovery.seed_hosts=es_2
-      - cluster.initial_master_nodes=es_1,es_2
+      - discovery.zen.ping.unicast.hosts=es_1,es_2
       - number_of_replicas=1
       - auto_expand_replicas=0-all
       - network.host=0.0.0.0
@@ -53,8 +52,7 @@ services:
     environment:
       - node.name=es_2
       - cluster.name=my-cluster
-      - discovery.seed_hosts=es_1
-      - cluster.initial_master_nodes=es_1,es_2
+      - discovery.zen.ping.unicast.hosts=es_1,es_2
       - number_of_replicas=1
       - auto_expand_replicas=0-all
       - network.host=0.0.0.0
@@ -94,7 +92,7 @@ services:
     networks:
       - esnet
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.3.2
+    image: docker.elastic.co/kibana/kibana:6.8.3
     container_name: kibana
     environment:
       ELASTICSEARCH_HOSTS: "https://es_1:9200"
@@ -114,7 +112,7 @@ services:
     networks:
       - esnet
   filebeat:
-    image: docker.elastic.co/beats/filebeat:7.3.2
+    image: docker.elastic.co/beats/filebeat:6.8.3
     container_name: filebeat
     # to overwrite the -e that disables logging to file and disable strict permission checks for filebeat.yml!
     command: -c filebeat.yml -strict.perms=false

@@ -26,8 +26,8 @@ echo "calling elasticsearch filebeat-* endpoint"
 index=$(curl -X GET --silent -k -u "kibana_user:kibana" "https://localhost:9200/filebeat-*?pretty")
 
 echo -n "TEST if filebeat index exists..."
-meta_beat=$(jq -r '.[].mappings._meta.beat' <<<"${index}")
-if [ "${meta_beat,,}" != "filebeat" ]; then
+meta_beat=$(jq -r '.[].mappings.doc._meta.version' <<<"${index}")
+if [ "${meta_beat}" != "6.8.3" ]; then
   echo "failed: mappings._meta.beat is unexpected \"${meta_beat}\"; response=\"${index}\""
   ((general_status++))
 else
