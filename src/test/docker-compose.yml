@@ -7,7 +7,8 @@ services:
     environment:
       - node.name=es_1
       - cluster.name=my-cluster
-      - discovery.zen.ping.unicast.hosts=es_1,es_2
+      - discovery.zen.ping.unicast.hosts=es_2
+      - discovery.zen.minimum_master_nodes=2
       - number_of_replicas=1
       - auto_expand_replicas=0-all
       - network.host=0.0.0.0
@@ -52,7 +53,8 @@ services:
     environment:
       - node.name=es_2
       - cluster.name=my-cluster
-      - discovery.zen.ping.unicast.hosts=es_1,es_2
+      - discovery.zen.ping.unicast.hosts=es_1
+      - discovery.zen.minimum_master_nodes=2
       - number_of_replicas=1
       - auto_expand_replicas=0-all
       - network.host=0.0.0.0
