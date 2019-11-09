@@ -31,7 +31,7 @@ Details are described [here](https://www.elastic.co/guide/en/elasticsearch/refer
 
 3.  test if elasticsearch cluster is up and running: 
 
-    -   `curl -k -u 'elastic:elastic' https://localhost:9200/_cluster/health?pretty`
+    -   `curl -k -u 'elastic:elastic' "https://localhost:9200/_cluster/health?pretty"`
         -   you should see **status: green** and **number_of_nodes: 2**.
 
     -   `curl -k -u 'remote_monitoring_user:monitor' https://localhost:9200/_prometheus/metrics`
