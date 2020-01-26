@@ -94,7 +94,7 @@ services:
     networks:
       - esnet
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.5.1
+    image: docker.elastic.co/kibana/kibana:7.5.2
     container_name: kibana
     environment:
       ELASTICSEARCH_HOSTS: "https://es_1:9200"
@@ -114,7 +114,7 @@ services:
     networks:
       - esnet
   filebeat:
-    image: docker.elastic.co/beats/filebeat:7.5.1
+    image: docker.elastic.co/beats/filebeat:7.5.2
     container_name: filebeat
     # to overwrite the -e that disables logging to file and disable strict permission checks for filebeat.yml!
     command: -c filebeat.yml -strict.perms=false
