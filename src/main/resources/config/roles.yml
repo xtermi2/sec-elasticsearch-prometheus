@@ -1,4 +1,4 @@
-kibana_admin:
+kibana_administrator:
   cluster:
     - monitor
     - manage_security

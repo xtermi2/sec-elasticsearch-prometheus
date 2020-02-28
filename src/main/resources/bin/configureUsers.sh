@@ -59,7 +59,7 @@ passwd remote_monitoring_user "${REMOTE_MONITORING_PASSWORD}"
 # existing default roles: [kibana_dashboard_only_user, apm_system, watcher_admin, logstash_system, rollup_user, kibana_user, beats_admin, remote_monitoring_agent, rollup_admin, code_user, data_frame_transforms_admin, snapshot_user, monitoring_user, logstash_admin, machine_learning_user, data_frame_transforms_user, machine_learning_admin, watcher_user, apm_user, beats_system, reporting_user, kibana_system, transport_client, remote_monitoring_collector, code_admin, superuser, ingest_admin]
 # https://www.elastic.co/guide/en/elastic-stack-overview/current/built-in-roles.html
 addUser "beats" "\"beats_system\", \"beats_admin\", \"filebeats_admin\"" "${BEATS_PASSWORD}"
-addUser "kibana_user" "\"kibana_user\", \"kibana_admin\", \"reporting_user\"" "${KIBANA_USER_PASSWORD}"
+addUser "kibana_user" "\"kibana_administrator\", \"kibana_admin\", \"reporting_user\"" "${KIBANA_USER_PASSWORD}"
 
 echo "list existing users with their roles after modifications are done:"
 listUsers

@@ -28,7 +28,7 @@ services:
       - ELASTIC_PASSWORD=elastic
       - KIBANA_PASSWORD=kibana
       - KIBANA_USER_PASSWORD=kibana
-      - BEATS_PASSWORD=beats
+      - BEATS_PASSWORD=secret
       - REMOTE_MONITORING_PASSWORD=monitor
     volumes:
       - ./test-certs/ca/ca.crt:/usr/share/elasticsearch/config/certificates/ca.crt
@@ -94,7 +94,7 @@ services:
     networks:
       - esnet
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.5.2
+    image: docker.elastic.co/kibana/kibana:7.6.0
     container_name: kibana
     environment:
       ELASTICSEARCH_HOSTS: "https://es_1:9200"
@@ -114,7 +114,7 @@ services:
     networks:
       - esnet
   filebeat:
-    image: docker.elastic.co/beats/filebeat:7.5.2
+    image: docker.elastic.co/beats/filebeat:7.6.0
     container_name: filebeat
     # to overwrite the -e that disables logging to file and disable strict permission checks for filebeat.yml!
     command: -c filebeat.yml -strict.perms=false

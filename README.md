@@ -34,8 +34,8 @@ This image also adds:
     [filebeats_admin](https://github.com/xtermi2/sec-elasticsearch-prometheus/tree/master/src/main/resources/config/roles.yml)) 
     and will have the same password. It's designed do manage and publish filebeats data to elasticsearch.
 
--   a user named `kibana_user`, which has roles `kibana_user`, `reporting_user` and `kibana_admin` and is designed to login to Kibana UI.
-    [kibana_admin](https://github.com/xtermi2/sec-elasticsearch-prometheus/tree/master/src/main/resources/config/roles.yml) 
+-   a user named `kibana_user`, which has roles `kibana_administrator`, `reporting_user` and `kibana_admin` and is designed to login to Kibana UI.
+    [kibana_administrator](https://github.com/xtermi2/sec-elasticsearch-prometheus/tree/master/src/main/resources/config/roles.yml) 
     is a custom role, which grants admin rights for kibana and read access to all indices.
 
 You are able to easily set passwords for these users via Docker environment variables.
