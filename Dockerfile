@@ -1,5 +1,5 @@
 # Instructions to build this image
-FROM docker.elastic.co/elasticsearch/elasticsearch:6.8.7
+FROM docker.elastic.co/elasticsearch/elasticsearch:7.6.1
 
 ARG VCS_REF
 ARG BUILD_DATE
