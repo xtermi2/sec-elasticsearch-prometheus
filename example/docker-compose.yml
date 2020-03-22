@@ -2,7 +2,7 @@
 version: '3.6'
 services:
   es_1:
-    image: xtermi2/sec-elasticsearch-prometheus
+    image: xtermi2/sec-elasticsearch-prometheus:7.6.0
     container_name: es_1
     environment:
       - node.name=es_1
@@ -51,7 +51,7 @@ services:
     networks:
       - esnet
   es_2:
-    image: xtermi2/sec-elasticsearch-prometheus
+    image: xtermi2/sec-elasticsearch-prometheus:7.6.0
     container_name: es_2
     environment:
       - node.name=es_2
@@ -158,7 +158,7 @@ services:
     networks:
       - esnet
   grafana:
-    image: grafana/grafana:6.6.2
+    image: grafana/grafana:6.7.1
     container_name: grafana
     volumes:
       - ./monitoring/grafana_provisioning_prometheus_datasource.yaml:/etc/grafana/provisioning/datasources/grafana_provisioning_prometheus_datasource.yaml
