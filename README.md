@@ -13,6 +13,8 @@ For a complete example with 2 elasticsearch nodes, [kibana](https://www.elastic.
 [prometheus](https://prometheus.io) and [grafana](https://grafana.com) have a look at
  [xtermi2/sec-elasticsearch-prometheus/example/README.md](https://github.com/xtermi2/sec-elasticsearch-prometheus/tree/master/example)
 
+This docker image is hosted on docker hub: [https://hub.docker.com/r/xtermi2/sec-elasticsearch-prometheus](https://hub.docker.com/r/xtermi2/sec-elasticsearch-prometheus)
+
 ## Image detail description
 
 This docker image extends the original elastic image, sets up default user passwords and installs 
