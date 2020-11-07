@@ -1,5 +1,5 @@
 # Instructions to build this image
-FROM docker.elastic.co/elasticsearch/elasticsearch:7.9.2
+FROM docker.elastic.co/elasticsearch/elasticsearch:7.9.3
 
 ARG VCS_REF
 ARG BUILD_DATE
@@ -14,7 +14,7 @@ LABEL org.label-schema.vcs-url="https://github.com/xtermi2/sec-elasticsearch-pro
 LABEL org.label-schema.vcs-ref=$VCS_REF
 LABEL org.label-schema.build-date=$BUILD_DATE
 
-ENV PROMETHEUS_EXPORTER_VERSION "7.9.2.0"
+ENV PROMETHEUS_EXPORTER_VERSION "7.9.3.0"
 
 ENV ELASTIC_PASSWORD ""
 ENV KIBANA_PASSWORD ""

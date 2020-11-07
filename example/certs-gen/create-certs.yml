@@ -3,7 +3,7 @@ version: '2.2'
 services:
   create_certs:
     container_name: create_certs
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3
     command: >
       bash -c '
         yum install -y -q -e 0 unzip;
