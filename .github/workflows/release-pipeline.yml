@@ -1,0 +1,98 @@
+name: "Release Pipeline"
+
+on:
+  push:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron: '30 5 * * *'
+
+env:
+  IMAGE_NAME: "xtermi2/sec-elasticsearch-prometheus"
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Docker Env
+        uses: docker-practice/actions-setup-docker@v1
+      - name: Docker build
+        run: docker build --build-arg VCS_REF=`git rev-parse HEAD` --build-arg BUILD_DATE=`date --iso-8601=seconds` -t $IMAGE_NAME:latest --no-cache .
+      - name: install jq (required for testing)
+        run:  sudo apt-get install -y jq
+      - name: increas max_map_count (required for testing)
+        run: sudo sysctl -w vm.max_map_count=262144
+      - name: test Docker Image
+        run: ./src/test/test.sh
+
+#  release:
+#    # Release to dockerhub and create Github release
+#    needs: [build-and-test]
+#    if: ${{ github.repository == 'senacor/elasticsearch-evolution' && github.event_name == 'push' && github.ref == 'refs/heads/release' }}
+#    runs-on: ubuntu-20.04
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#      - name: Import GPG key to sign maven build artifacts
+#        uses: crazy-max/ghaction-import-gpg@v3
+#        with:
+#          gpg-private-key: ${{ secrets.GPG_SECRET_KEYS }}
+#          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+#          git-user-signingkey: true
+#          git-commit-gpgsign: true
+#      - name: Set up JDK 8
+#        # with JDK 11 the maven-javadoc-plugin > 3.0.1 fails with "cannot find symbol org.elasticsearch.*"
+#        uses: actions/setup-java@v1
+#        with:
+#          java-version: 8
+#      - name: Cache local Maven repository
+#        uses: actions/cache@v2
+#        with:
+#          path: |
+#            ~/.m2/repository
+#            !~/.m2/repository/com/senacor
+#            ~/.m2/wrapper
+#          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+#          restore-keys: |
+#            ${{ runner.os }}-maven-
+#      - name: Release to maven central
+#        env:
+#          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+#          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+#          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+#        run: $MVN_CMD deploy -DskipTests=true -Drelease
+#
+#      - name: prepare release version
+#        run: source prepare_release_version.sh
+#      - name: Create Github Release
+#        id: create_release
+#        uses: actions/create-release@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+#        with:
+#          tag_name: ${{ env.TRAVIS_TAG }}
+#          release_name: ${{ env.PROJECT_VERSION }}
+#          body: ""
+#          draft: false
+#          prerelease: ${{ env.IS_SNAPSHOT }}
+#      - name: Upload Release Asset spring-boot-starter-elasticsearch-evolution
+#        id: upload-release-asset-spring-boot-starter-elasticsearch-evolution
+#        uses: actions/upload-release-asset@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          upload_url: ${{ steps.create_release.outputs.upload_url }}
+#          asset_path: ./spring-boot-starter-elasticsearch-evolution/target/spring-boot-starter-elasticsearch-evolution-${{ env.PROJECT_VERSION }}.jar
+#          asset_name: spring-boot-starter-elasticsearch-evolution-${{ env.PROJECT_VERSION }}.jar
+#          asset_content_type: application/java-archive
+#      - name: Upload Release Asset elasticsearch-evolution-core
+#        id: upload-release-asset-elasticsearch-evolution-core
+#        uses: actions/upload-release-asset@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          upload_url: ${{ steps.create_release.outputs.upload_url }}
+#          asset_path: ./elasticsearch-evolution-core/target/elasticsearch-evolution-core-${{ env.PROJECT_VERSION }}.jar
+#          asset_name: elasticsearch-evolution-core-${{ env.PROJECT_VERSION }}.jar
+#          asset_content_type: application/java-archive
