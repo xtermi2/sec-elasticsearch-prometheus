@@ -25,6 +25,8 @@ jobs:
         run: sudo sysctl -w vm.max_map_count=262144
       - name: test Docker Image
         run: ./src/test/test.sh
+      - name: print image details
+        run: docker inspect $IMAGE_NAME
 
 #  release:
 #    # Release to dockerhub and create Github release
