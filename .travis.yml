@@ -17,20 +17,20 @@ script:
 after_script:
   - docker inspect $IMAGE_NAME
 
-deploy:
-  - provider: script
-    on:
-      all_branches: true
-      tags: true
-      repo: $IMAGE_NAME
-    skip_cleanup: true
-    script: bash deployToDockerhub.sh "$TRAVIS_TAG" "$IMAGE_NAME"
-  - provider: releases
-    on:
-      all_branches: true
-      tags: true
-      repo: $IMAGE_NAME
-    skip_cleanup: true
-    api_key:
-      secure: jroBPs0YGEkPfxfv7xtzkLV6T/q0nPdvp5/un1U/LrviBQejKfnFDLVriOxLdxLjEqWvIvtzIbuk4QaKQIyV3G72JBnioZf3L4MdIfjc8JPq+8Lxwr1OLE5ez7apmGv/sA4A/tECQdEmcp0jm5VUpFaWBDXtRyL3mbLzrNEqWqcjmk6VkxSUEZny46LpY/DuBvXy1CZijMSp6ESuJtku+dyRBpUe/YSAcYqwX0p+yFjIjT9ovaWVBjHXwoV9i92zXeUKA2v9u0rZRcWzyDTrWpfJwEZ3jKi+xGZEF3o0BXJrpdMVktjcPXwkLlEdXmDmyXOcRHzxHafqW7APG+A2sbxCknNR1k+ty27sdJ1bo8MDBsD99iSJua9z07Pw0S85MqX2FldPxo53yA5PVYr4xJfG2r5/15z6NBfltey+TmKfef+dhkkoGjrhiavsAPI48hDD2wc74yTfbdbP1GRLXhiLqA/TP+TxbJDFC6vXjfvI1eMQK56ab+KqO9odBonLFG2h1KZGXSWsxwd2Y13XzyiiA8ILTNKoHgzeDgzM21873Gokk5qH9CCcYrTzmK/H3RZ5q3UPcKCDNBvvO2Cfu6Wz+r/wuYsn5lAofeuZbL6gFG1SM3uFA50wIx7yiORa5yjfdgmrJ9xQKa3BrY82jYNcfGeDB1HGUGnzHhyLrMI=
-    draft: false
+#deploy:
+#  - provider: script
+#    on:
+#      all_branches: true
+#      tags: true
+#      repo: $IMAGE_NAME
+#    skip_cleanup: true
+#    script: bash deployToDockerhub.sh "$TRAVIS_TAG" "$IMAGE_NAME"
+#  - provider: releases
+#    on:
+#      all_branches: true
+#      tags: true
+#      repo: $IMAGE_NAME
+#    skip_cleanup: true
+#    api_key:
+#      secure: jroBPs0YGEkPfxfv7xtzkLV6T/q0nPdvp5/un1U/LrviBQejKfnFDLVriOxLdxLjEqWvIvtzIbuk4QaKQIyV3G72JBnioZf3L4MdIfjc8JPq+8Lxwr1OLE5ez7apmGv/sA4A/tECQdEmcp0jm5VUpFaWBDXtRyL3mbLzrNEqWqcjmk6VkxSUEZny46LpY/DuBvXy1CZijMSp6ESuJtku+dyRBpUe/YSAcYqwX0p+yFjIjT9ovaWVBjHXwoV9i92zXeUKA2v9u0rZRcWzyDTrWpfJwEZ3jKi+xGZEF3o0BXJrpdMVktjcPXwkLlEdXmDmyXOcRHzxHafqW7APG+A2sbxCknNR1k+ty27sdJ1bo8MDBsD99iSJua9z07Pw0S85MqX2FldPxo53yA5PVYr4xJfG2r5/15z6NBfltey+TmKfef+dhkkoGjrhiavsAPI48hDD2wc74yTfbdbP1GRLXhiLqA/TP+TxbJDFC6vXjfvI1eMQK56ab+KqO9odBonLFG2h1KZGXSWsxwd2Y13XzyiiA8ILTNKoHgzeDgzM21873Gokk5qH9CCcYrTzmK/H3RZ5q3UPcKCDNBvvO2Cfu6Wz+r/wuYsn5lAofeuZbL6gFG1SM3uFA50wIx7yiORa5yjfdgmrJ9xQKa3BrY82jYNcfGeDB1HGUGnzHhyLrMI=
+#    draft: false
