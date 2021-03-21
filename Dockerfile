@@ -31,11 +31,10 @@ RUN echo "===> Installing elasticsearch-prometheus-exporter plugin..." \
     && chmod -R +x /usr/local/bin \
     && elasticsearch-plugin install -b https://github.com/vvanholl/elasticsearch-prometheus-exporter/releases/download/${PROMETHEUS_EXPORTER_VERSION}/prometheus-exporter-${PROMETHEUS_EXPORTER_VERSION}.zip
 
-#run Aqua MicroScanner - scan for vulnerabilities
-RUN curl -L -o /tmp/microscanner https://get.aquasec.com/microscanner \
-    && chmod +x /tmp/microscanner \
-    && /tmp/microscanner $MICROSCANNER_TOKEN --continue-on-failure \
-    && rm -rf /tmp/microscanner
+#run Aqua's trivy - scan for vulnerabilities
+RUN curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /tmp \
+    && /tmp/trivy filesystem --no-progress / \
+    && rm -rf /tmp/trivy
 
 ENTRYPOINT ["/usr/local/bin/new-entrypoint.sh"]
 # Dummy overridable parameter parsed by entrypoint
