@@ -47,7 +47,7 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: deployToDockerhub.sh "${{ steps.get_tag.outputs.TAG_VERSION }}" "$IMAGE_NAME"
+        run: ./deployToDockerhub.sh "${{ steps.get_tag.outputs.TAG_VERSION }}" "$IMAGE_NAME"
       - name: Create Github Release
         id: create_release
         uses: actions/create-release@v1
