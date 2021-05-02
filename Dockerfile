@@ -32,7 +32,7 @@ RUN echo "===> Installing elasticsearch-prometheus-exporter plugin..." \
 
 #run Aqua's trivy - scan for vulnerabilities
 RUN curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /tmp \
-    && /tmp/trivy filesystem --no-progress / \
+    && /tmp/trivy filesystem --severity HIGH,CRITICAL --no-progress / \
     && rm -rf /tmp/trivy
 
 ENTRYPOINT ["/usr/local/bin/new-entrypoint.sh"]
