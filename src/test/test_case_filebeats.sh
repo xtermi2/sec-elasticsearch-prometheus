@@ -19,16 +19,25 @@ if ((RET != 0)); then
   echo "failed! result=\"${filebeat_stats}\""
   ((general_status++))
 else
-  echo "OK"
+  echo "OK - filebeat.events.done: ${filebeats_status_events_done}"
 fi
 
-echo "calling elasticsearch filebeat-* endpoint"
-index=$(curl -X GET --silent -k -u "kibana_user:kibana" "https://localhost:9200/filebeat-*?pretty")
+echo -n "calling elasticsearch filebeat-* endpoint..."
+index=""
+count=0
+while [[ "${index}" == "" && $count -lt 10 ]]; do
+  sleep 1
+  index=$(curl -X GET --silent -k -u "kibana_user:kibana" "https://localhost:9200/filebeat-*?pretty")
+  echo -n "."
+  ((count++))
+done
+echo ""
 
 echo -n "TEST if filebeat index exists..."
 meta_beat=$(jq -r '.[].mappings._meta.version' <<<"${index}")
 if [ "${meta_beat}" != "7.13.0" ]; then
   echo "failed: mappings._meta.version is unexpected \"${meta_beat}\"; response=\"${index}\""
+  echo "filebeat_stats: ${filebeat_stats}"
   ((general_status++))
 else
   echo "OK"
@@ -45,9 +54,10 @@ while ((count < 1 && itterations < 20)); do
 done
 if ((count < 1)); then
   echo "failed: count is \"${count}\""
+  echo "filebeat_stats: ${filebeat_stats}"
   ((general_status++))
 else
-  echo "OK"
+  echo "OK - count: ${count}"
 fi
 
 exit ${general_status}
