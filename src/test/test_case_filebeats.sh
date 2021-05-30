@@ -25,9 +25,9 @@ fi
 echo -n "calling elasticsearch filebeat-* endpoint..."
 index=""
 count=0
-while [[ "${index}" == "" && $count -lt 10 ]]; do
+while [[ "${index}" == "" && $count -lt 30 ]]; do
   sleep 1
-  index=$(curl -X GET --silent -k -u "kibana_user:kibana" "https://localhost:9200/filebeat-*?pretty")
+  index=$(curl -X GET --silent -k -u 'kibana_user:kibana' 'https://localhost:9200/filebeat-*?pretty')
   echo -n "."
   ((count++))
 done
