@@ -14,7 +14,7 @@ services:
       - network.host=0.0.0.0
       - network.bind_host=0.0.0.0
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms196m -Xmx196m"
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
       - xpack.security.enabled=true
       - xpack.security.http.ssl.enabled=true
       - xpack.security.http.ssl.key=/usr/share/elasticsearch/config/certificates/node.key
@@ -60,7 +60,7 @@ services:
       - network.host=0.0.0.0
       - network.bind_host=0.0.0.0
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms196m -Xmx196m"
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
       - xpack.security.enabled=true
       - xpack.security.http.ssl.enabled=true
       - xpack.security.http.ssl.key=/usr/share/elasticsearch/config/certificates/node.key
