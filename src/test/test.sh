@@ -4,6 +4,8 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 cd "${DIR}"
 
 echo "stating docker-compose"
+# first pull images, to get a more reliable build in CI
+docker-compose pull kibana filebeat
 docker-compose up -d
 
 ./wait_until_started.sh
