@@ -3,7 +3,7 @@
 [![](https://images.microbadger.com/badges/version/xtermi2/sec-elasticsearch-prometheus.svg)](https://microbadger.com/images/xtermi2/sec-elasticsearch-prometheus)
 [![](https://images.microbadger.com/badges/image/xtermi2/sec-elasticsearch-prometheus.svg)](https://microbadger.com/images/xtermi2/sec-elasticsearch-prometheus)
 [![](https://images.microbadger.com/badges/commit/xtermi2/sec-elasticsearch-prometheus.svg)](https://microbadger.com/images/xtermi2/sec-elasticsearch-prometheus)
-[![Build Status](https://travis-ci.org/xtermi2/sec-elasticsearch-prometheus.svg?branch=master)](https://travis-ci.org/xtermi2/sec-elasticsearch-prometheus)
+[![Build and Release Pipeline](https://github.com/xtermi2/sec-elasticsearch-prometheus/actions/workflows/release-pipeline.yml/badge.svg)](https://github.com/xtermi2/sec-elasticsearch-prometheus/actions/workflows/release-pipeline.yml)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/796f8f4c83704979ab757e921c79c1ca)](https://www.codacy.com/manual/xtermi2/sec-elasticsearch-prometheus?utm_source=github.com&utm_medium=referral&utm_content=xtermi2/sec-elasticsearch-prometheus&utm_campaign=Badge_Grade)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
