@@ -3,7 +3,6 @@ FROM docker.elastic.co/elasticsearch/elasticsearch:6.8.17
 
 ARG VCS_REF
 ARG BUILD_DATE
-ARG MICROSCANNER_TOKEN
 
 LABEL description="extended elasticsearch image with pre-installed elasticsearch-prometheus-exporter"
 LABEL org.label-schema.name="sec-elasticsearch-prometheus"
@@ -30,11 +29,6 @@ COPY --chown=1000:0 ./src/main/resources/config /usr/share/elasticsearch/config
 RUN echo "===> Installing elasticsearch-prometheus-exporter plugin..." \
     && chmod -R +x /usr/local/bin \
     && elasticsearch-plugin install -b https://github.com/vvanholl/elasticsearch-prometheus-exporter/releases/download/${PROMETHEUS_EXPORTER_VERSION}/prometheus-exporter-${PROMETHEUS_EXPORTER_VERSION}.zip
-
-#run Aqua's trivy - scan for vulnerabilities
-RUN curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /tmp \
-    && /tmp/trivy filesystem --no-progress / \
-    && rm -rf /tmp/trivy
 
 ENTRYPOINT ["/usr/local/bin/new-entrypoint.sh"]
 # Dummy overridable parameter parsed by entrypoint

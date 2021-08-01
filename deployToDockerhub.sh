@@ -65,4 +65,5 @@ for docker_tag in ${DOCKER_TAGS}; do
   echo "pushing docker image '${DOCKER_IMAGE}:${docker_tag}'..."
   docker push "${DOCKER_IMAGE}:${docker_tag}"
 done
-curl -X POST "https://hooks.microbadger.com/images/xtermi2/sec-elasticsearch-prometheus/iKhlqbmNwQ369APaLdn_uP0XTTU="
+
+curl -X POST "https://hooks.microbadger.com/images/xtermi2/sec-elasticsearch-prometheus/iKhlqbmNwQ369APaLdn_uP0XTTU=" || echo "microbadger update failed"
