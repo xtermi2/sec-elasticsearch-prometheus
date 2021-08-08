@@ -14,7 +14,7 @@ services:
       - network.host=0.0.0.0
       - network.bind_host=0.0.0.0
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms128m -Xmx128m"
+      - "ES_JAVA_OPTS=-Xms196m -Xmx196m"
       - xpack.security.enabled=true
       - xpack.security.http.ssl.enabled=true
       - xpack.security.http.ssl.key=/usr/share/elasticsearch/config/certificates/node.key
@@ -60,7 +60,7 @@ services:
       - network.host=0.0.0.0
       - network.bind_host=0.0.0.0
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms128m -Xmx128m"
+      - "ES_JAVA_OPTS=-Xms196m -Xmx196m"
       - xpack.security.enabled=true
       - xpack.security.http.ssl.enabled=true
       - xpack.security.http.ssl.key=/usr/share/elasticsearch/config/certificates/node.key
@@ -94,7 +94,7 @@ services:
     networks:
       - esnet
   kibana:
-    image: docker.elastic.co/kibana/kibana:6.8.17
+    image: docker.elastic.co/kibana/kibana:6.8.18
     container_name: kibana
     environment:
       ELASTICSEARCH_HOSTS: "https://es_1:9200"
@@ -114,7 +114,7 @@ services:
     networks:
       - esnet
   filebeat:
-    image: docker.elastic.co/beats/filebeat:6.8.17
+    image: docker.elastic.co/beats/filebeat:6.8.18
     container_name: filebeat
     # to overwrite the -e that disables logging to file and disable strict permission checks for filebeat.yml!
     command: -c filebeat.yml -strict.perms=false
